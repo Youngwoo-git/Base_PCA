@@ -9,7 +9,7 @@ import numpy as np
 # paper reference: "https://arxiv.org/abs/1906.01493"
 # calculation reference: "https://www.baeldung.com/cs/pca"
 
-def compute_PCA(feature, threshold = 0.95, status_print = False):
+def compute_PCA(feature, threshold = 0.95, verbose = False):
 
     total_channel = feature.shape[1]
 
@@ -33,13 +33,13 @@ def compute_PCA(feature, threshold = 0.95, status_print = False):
     
     # importance_ratio = d/total_channel
 
-    if status_print:
+    if verbose:
         print('need at least {} filter(s) out of {} components to exceed threshold. So {:.02f}% of filters needed minimum to exceed threshold'.format(d, total_channel, d/total_channel*100))
     
     return d,  d/total_channel
 
 
-def extract_primary_layers(x, model, return_nodes, threshold = 0.99, num_layers = 3, status_print = False): # num_layers for how many layers to quantize
+def extract_primary_layers(x, model, return_nodes, threshold = 0.99, num_layers = 3, verbose = False, inverse = False): # num_layers for how many layers to quantize
     if num_layers > len(return_nodes.keys()):
         print("num layers cannot exceed number of activation layers within model")
         return
@@ -58,13 +58,15 @@ def extract_primary_layers(x, model, return_nodes, threshold = 0.99, num_layers 
     pca_result_list = []
     
     for k in intermediate_outputs.keys():
-        if status_print:
+        if verbose:
             print(model_nodes[k] + " analysis result")
         feature = intermediate_outputs[k]
-        pca_score, pca_ratio = compute_PCA(feature, threshold, status_print = status_print)
+        pca_score, pca_ratio = compute_PCA(feature, threshold, verbose = verbose)
         pca_result_list.append((model_nodes[k], pca_ratio))
         
-    sorted_pca_result_list = sorted(pca_result_list, key=lambda x: x[1])
+    sorted_pca_result_list = sorted(pca_result_list, key=lambda x: -x[1])
+    if inverse:
+        sorted_pca_result_list = sorted(pca_result_list, key=lambda x: x[1])
     return sorted_pca_result_list[:num_layers]
     
 

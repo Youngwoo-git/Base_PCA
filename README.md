@@ -5,7 +5,7 @@
 - python == 3.7
 - pytorch == 1.12.1
 - numpy == 1.21.5
-
+- thop == 0.1.1
 
 ## Implementation
 
