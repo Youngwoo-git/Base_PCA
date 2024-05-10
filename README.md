@@ -17,7 +17,7 @@
         
         Manually adjust whether or not to print out the calculated percentage
         
-        Please check out [quantization_conversion.ipynb](./quantization_conversion.ipynb)
+        Please check out section 1 and 2 in [quantization_conversion.ipynb](./quantization_conversion.ipynb)
 
 - Training Script
         
@@ -29,7 +29,10 @@
 ```
 
 
-- quantization (TBD)
+- quantization
+
+        Please check out [quantization_conversion.ipynb](./quantization_conversion.ipynb)
+        Detailed instructions are to be added
 
 
 
