@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.ao.quantization import QuantStub, DeQuantStub
+import os
 
 def prepare_quantization(model, primary_layers):
 
@@ -12,7 +13,7 @@ def prepare_quantization(model, primary_layers):
         fuse_modules(model, [l.replace(str(activation_idx), str(conv_idx)), l], inplace=True)
 
         model.features[conv_idx] = nn.Sequential(QuantStub(), model.features[conv_idx], DeQuantStub())
-        model.features[conv_idx].qconfig = torch.ao.quantization.default_qconfig
+        model.features[conv_idx].qconfig = torch.ao.quantization.get_default_qconfig('x86')
 
     torch.ao.quantization.prepare(model, inplace=True)
 
@@ -33,3 +34,9 @@ def quantize_model(model, primary_layers, data_loader, num_calibration_batches):
     prepare_quantization(model, primary_layers)
     calibrate(model, data_loader, num_calibration_batches)
     torch.ao.quantization.convert(model, inplace=True)
+    
+def print_size_of_model(model):
+    torch.save(model.state_dict(), "./temp.p")
+    model_size = os.path.getsize("./temp.p")
+    os.remove('./temp.p')
+    return model_size
