@@ -20,7 +20,7 @@ def prepare_quantization(model, primary_layers):
 def calibrate(model, data_loader, num_calibration_batches = 1):
     model.eval()
     calibration_count = min(num_calibration_batches, len(data_loader))
-    print(calibration_count)
+    # print(calibration_count)
 
     with torch.no_grad():
         for idx, (image, target) in enumerate(data_loader):
