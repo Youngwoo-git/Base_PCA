@@ -9,6 +9,18 @@ import numpy as np
 # paper reference: "https://arxiv.org/abs/1906.01493"
 # calculation reference: "https://www.baeldung.com/cs/pca"
 
+def produce_return_nodes(model):
+    return_nodes = {}
+    count = 1
+
+    for name, module in model.named_modules():
+        if isinstance(module, torch.nn.modules.activation.ReLU) and "features" in name:
+            # print(name)
+            # print(module)
+            return_nodes[name] = "layer{}".format(count)
+            count += 1
+    return return_nodes
+
 def compute_PCA(feature, threshold = 0.95, verbose = False):
 
     total_channel = feature.shape[1]

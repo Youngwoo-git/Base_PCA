@@ -50,7 +50,7 @@ def run(args):
     
     now = datetime.now() # current date and time
     date_time = now.strftime("%m_%d_%H%M%S")
-    save_dir = os.path.join(args.save_dir, date_time+"_"+args.model)
+    save_dir = os.path.join(args.save_dir, date_time+"_"+args.model+"_"+args.dataset)
     os.makedirs(save_dir, exist_ok=True)
     
     trainer(model, trainloader, testloader, loss_fn, optimizer, scheduler, device, ldl, lts, num_epochs, patience, save_dir)
