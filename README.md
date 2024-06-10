@@ -30,7 +30,9 @@
 
 - Experiment code using layer-wise quantization process
 - Details in [collect_statistics.py](./collect_statistics.py)
-
+``` bash
+        python collect_statistics.py
+```
 
 #### Visualization
 
