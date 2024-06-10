@@ -24,27 +24,15 @@ def produce_return_nodes(model):
 def compute_PCA(feature, threshold = 0.95, verbose = False):
 
     total_channel = feature.shape[1]
-
     activations = (feature.data).cpu().numpy()
-    # print('shape of activations are:',activations.shape)
     a=activations.swapaxes(1,2).swapaxes(2,3)
     a_shape=a.shape
-    # print('reshaped ativations are of shape',a.shape)
-    # raw_input()
 
     pca = PCA() #number of components should be equal to the number of filters
     pca.fit(a.reshape(a_shape[0]*a_shape[1]*a_shape[2],a_shape[3]))
     a_trans=pca.transform(a.reshape(a_shape[0]*a_shape[1]*a_shape[2],a_shape[3]))
-    # print('explained variance ratio is:',pca.explained_variance_ratio_)
-    # raw_input()
     cumsum = np.cumsum(pca.explained_variance_ratio_)
     d = np.argmax(cumsum >= threshold)
-    
-    # print(cumsum.shape)
-    # print("pca: ", pca.components_.shape)
-    
-    # importance_ratio = d/total_channel
-
     if verbose:
         print('need at least {} filter(s) out of {} components to exceed threshold. So {:.02f}% of filters needed minimum to exceed threshold'.format(d, total_channel, d/total_channel*100))
     
