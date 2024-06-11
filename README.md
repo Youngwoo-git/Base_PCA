@@ -39,7 +39,9 @@
 - graph/table extraction for quantization result is in [visualization.ipynb](./visualization.ipynb)
 
 
-#### Demo Reseult (PCA)
+## Demo Results
+
+#### Layer-wise Quantization Result
 |   | vgg16  | Vgg19  |  
 |---|---|---|
 | cifar 10  | ![vgg16_cifar10](./demo/vgg16_cifar10.jpg)  | ![vgg19_cifar10](./demo/vgg19_cifar10.jpg)  | 
